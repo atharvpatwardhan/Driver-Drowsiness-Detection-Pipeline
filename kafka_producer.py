@@ -4,7 +4,7 @@ from kafka import KafkaProducer
 import base64
 import time
 
-producer = KafkaProducer(bootstrap_servers='54.146.153.16:9092')
+producer = KafkaProducer(bootstrap_servers='54.146.161.205:9092')
 
 cap = cv2.VideoCapture(0)
 

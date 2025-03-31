@@ -4,7 +4,7 @@ import base64
 import numpy as np
 
 
-consumer = KafkaConsumer('drowsinesstopic', bootstrap_servers='54.146.153.16:9092', auto_offset_reset='earliest')
+consumer = KafkaConsumer('drowsinesstopic', bootstrap_servers='54.146.161.205:9092', auto_offset_reset='earliest')
 
 for message in consumer:
     try:
