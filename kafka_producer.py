@@ -3,8 +3,13 @@ import cv2
 from kafka import KafkaProducer
 import base64
 import time
+from dotenv import load_dotenv
+import os
 
-producer = KafkaProducer(bootstrap_servers='54.146.161.205:9092')
+load_dotenv()
+
+aws_public_ipv4 = os.getenv("AWS_EC2_IPV4")
+producer = KafkaProducer(bootstrap_servers=f'{aws_public_ipv4}:9092')
 
 cap = cv2.VideoCapture(0)
 

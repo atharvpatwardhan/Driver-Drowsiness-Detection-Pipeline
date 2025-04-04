@@ -18,14 +18,17 @@ load_dotenv()
 
 app = FastAPI()
 
-def send_whatsapp_alert(batch_id: str):
+aws_public_ipv4 = os.getenv("AWS_EC2_IPV4")
+
+def send_whatsapp_alert(batch_id: int):
     CALLMEBOT_API_KEY = os.getenv("CALLMEBOT_API_KEY")
     PHONE_NUMBER = os.getenv("ALERT_PHONE_NUMBER")
-    REPORT_URL = f"https://qtawzqfhszbr22klbsjmdhvfqa0cnfni.lambda-url.us-east-1.on.aws/report_false_alert?batch_id={batch_id}"
+    REPORT_URL = f"https://nbnyxuvhz4vyfetyfuk7zv7xoe0uygcc.lambda-url.us-east-1.on.aws/report_false_alert/{batch_id}"
     MESSAGE = f"🚨+Drowsiness+Alert!+ Take a break! \nIf+this+was+a+false alarm,+report+it+here:+ {REPORT_URL}"
 
     url = f"https://api.callmebot.com/whatsapp.php?phone={PHONE_NUMBER}&text={MESSAGE}&apikey={CALLMEBOT_API_KEY}"
     response = requests.get(url)
+
 
     print(f"Message sent! Status: {response.status_code}")
 
@@ -38,14 +41,14 @@ spark = SparkSession.builder \
 
 model = YOLO("datasets/runs/detect/train2/weights/best.pt")
 
-producer = KafkaProducer(bootstrap_servers='54.146.161.205:9092', value_serializer=lambda v: json.dumps(v).encode('utf-8'))
+producer = KafkaProducer(bootstrap_servers=f'{aws_public_ipv4}:9092', value_serializer=lambda v: json.dumps(v).encode('utf-8'))
 
 s3_client = boto3.client('s3')
 S3_BUCKET = "drowsiness-detection-project-bucket"
 
 df = spark.readStream \
     .format("kafka") \
-    .option("kafka.bootstrap.servers", "54.146.161.205:9092") \
+    .option("kafka.bootstrap.servers", f'{aws_public_ipv4}:9092') \
     .option("subscribe", "drowsinesstopic") \
     .load()
 
