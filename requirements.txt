@@ -1,0 +1,9 @@
+ultralytics
+opencv-python
+kafka-python
+boto3
+fastapi
+requests
+python-dotenv
+pyspark
+pillow
