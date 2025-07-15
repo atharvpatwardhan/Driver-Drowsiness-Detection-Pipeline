@@ -23,6 +23,12 @@ This project detects driver drowsiness in real-time using computer vision and fi
 
 ---
 
+## ☁️ Cloud Architecture
+
+![Architecture Diagram](driver%20drowsiness.png)
+
+---
+
 ## ⚙️ Architecture
 
 ```text
@@ -36,9 +42,8 @@ Cameras → Kafka (Raw Frames) → Spark Streaming (YOLOv8 Inference) → Kafka 
 
 ```
 
-## 🚀 Getting Started Locally
-
 ---
+## 🚀 Getting Started Locally
 
 ### 📦 1. Clone the Repository
 
